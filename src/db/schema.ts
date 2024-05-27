@@ -1,9 +1,12 @@
 import {sql} from 'drizzle-orm';
-import {text, integer, sqliteTable} from 'drizzle-orm/sqlite-core';
+import {text, sqliteTable} from 'drizzle-orm/sqlite-core';
 
-export const users = sqliteTable('users', {
-  id: text('id'),
-  name: text('name'),
-  age: integer('age'),
-  email: text('email'),
+export const visits = sqliteTable('visits', {
+  domain: text('domain'),
+  path: text('path'),
+  timestamp: text('timestamp')
+    .notNull()
+    .default(sql`(current_timestamp)`),
 });
+
+export type DrizzleVisits = typeof visits.$inferSelect;
