@@ -6,7 +6,7 @@
   "types": "build/index.d.ts",
   "scripts": {
     "start:server": "ts-node src/index.ts",
-    "start": "node build/index.js",
+    "dev": "tsc && node build/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "gts lint",
     "clean": "gts clean",
