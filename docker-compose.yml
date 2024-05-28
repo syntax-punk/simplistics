@@ -1,9 +1,6 @@
 services:
   simplistics:
-    image: simplistics
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: monollect/simplistics:latest
     ports:
       - '5055:5055'
     environment:

@@ -35,7 +35,17 @@
     "ts-node": "^10.9.2",
     "typescript": "~5.4.3"
   },
-  "keywords": [],
+  "keywords": [
+    "node",
+    "express",
+    "typescript",
+    "drizzle",
+    "sqlite3"
+  ],
   "author": "syntax-punk",
-  "license": "ISC"
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/syntax-punk/simplistics.git"
+  },
+  "license": "MIT"
 }

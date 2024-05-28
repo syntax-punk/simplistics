@@ -18,11 +18,11 @@ app.use(
 app.use(express.json());
 
 app.get('/', async (req: Request, res: Response) => {
-  res.send('Hello World: ');
+  res.send('Welcome to simplistics!');
 });
 
 app.post(
-  '/visits',
+  '/track',
   async (req: Request<any, any, VisitRequestBody>, res: Response) => {
     const jsonPayload = req.body;
     // TODO: validate the request body
@@ -40,7 +40,7 @@ app.post(
   }
 );
 
-app.get('/visits/:domain/:path', async (req: Request, res: Response) => {
+app.get('/stats/:domain/:path', async (req: Request, res: Response) => {
   const domain = req.params.domain;
   const path = req.params.path;
 
