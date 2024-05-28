@@ -7,12 +7,15 @@ import {VisitRequestBody} from './definitions';
 import {and, count, desc, eq} from 'drizzle-orm';
 
 dotenv.config();
+const port: number | string = process.env.PORT || 5055;
 
 const app: Express = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: [`http://localhost:${port}`, 'https://*.syntaxpunk.com'],
+  })
+);
 app.use(express.json());
-
-const port: number | string = process.env.PORT || 3000;
 
 app.get('/', async (req: Request, res: Response) => {
   res.send('Hello World: ');
