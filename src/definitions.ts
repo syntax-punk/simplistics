@@ -1,5 +1,5 @@
 export type VisitRequestBody = {
-  domain: string;
+  hostName: string;
   path: string;
 };
 

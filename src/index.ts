@@ -5,6 +5,7 @@ import {DrizzleVisits, visits} from './db/schema';
 import {VisitRequestBody} from './definitions';
 import {and, count, desc, eq} from 'drizzle-orm';
 import {envVars} from './lib/environments';
+import {isEmpty} from './lib/tools';
 
 const {PORT, ALLOWED_HOSTS} = envVars;
 
@@ -23,11 +24,17 @@ app.get('/', async (req: Request, res: Response) => {
 app.post(
   '/track',
   async (req: Request<any, any, VisitRequestBody>, res: Response) => {
-    const jsonPayload = req.body;
+    const {hostName, path} = req.body;
+
+    if (isEmpty(hostName) || isEmpty(path)) {
+      res.status(400).json({message: 'Invalid request body'});
+      return;
+    }
+
     // TODO: validate the request body
     const record: DrizzleVisits = {
-      domain: jsonPayload.domain,
-      path: jsonPayload.path,
+      hostname: hostName,
+      path: path,
       timestamp: new Date().toUTCString(),
     };
 
@@ -42,27 +49,27 @@ app.get('/stats/all', async (req: Request, res: Response) => {
   res.json(result);
 });
 
-app.get('/stats/:domain/:path', async (req: Request, res: Response) => {
-  const domain = req.params.domain;
+app.get('/stats/:hostname/:path', async (req: Request, res: Response) => {
+  const hostname = req.params.hostname;
   const path = req.params.path;
 
   const result = await db
     .select()
     .from(visits)
-    .where(and(eq(visits.domain, domain), eq(visits.path, path)))
+    .where(and(eq(visits.hostname, hostname), eq(visits.path, path)))
     .orderBy(desc(visits.timestamp));
 
   res.json(result);
 });
 
-app.get('/count/:domain/:path', async (req: Request, res: Response) => {
-  const domain = req.params.domain;
+app.get('/count/:hostname/:path', async (req: Request, res: Response) => {
+  const hostname = req.params.hostname;
   const path = req.params.path;
 
   const [result] = await db
     .select({count: count()})
     .from(visits)
-    .where(and(eq(visits.domain, domain), eq(visits.path, path)));
+    .where(and(eq(visits.hostname, hostname), eq(visits.path, path)));
 
   res.json(result);
 });
