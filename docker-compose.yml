@@ -7,3 +7,4 @@ services:
       - NODE_ENV=production
       - PORT=5055
       - DB=store.db
+      - ALLOWED_HOSTS=http://localhost:3000,https://*.syntaxpunk.com

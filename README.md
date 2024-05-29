@@ -68,5 +68,24 @@ The application is also available on Docker Hub [here](https://hub.docker.com/r/
 ## Configuration
 
 The application can be configured using environment variables. Create a `.env` file in the root directory and add the following variables:
-  - `PORT=3000`
-  - `DB=store.db`
+  - `PORT=5055`
+  - `DB_PATH=store.db`
+  - `ALLOWED_HOSTS=http://localhost:3000,https://test.com,https://*.example.com`
+
+## API
+
+The application provides a simple API for statistics. The API endpoints are as follows:
+
+### GET Requests
+- `GET /stats/all`: Get all statistics
+- `GET /stats/:domain/:path`: Get statistics for a specific domain and path
+- `GET /count/:domain/:path`: Get the count of visits for a specific domain and path
+
+### POST Requests
+- `POST /track`: Track a visit
+  ```json
+    {
+      "domain": "example.com",
+      "path": "/home"
+    }
+  ```
