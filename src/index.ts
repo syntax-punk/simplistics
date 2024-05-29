@@ -9,6 +9,9 @@ import {isEmpty} from './lib/tools';
 
 const {PORT, ALLOWED_HOSTS} = envVars;
 
+console.log('--> PORT: ', PORT);
+console.log('--> ALLOWED_HOSTS: ', ALLOWED_HOSTS);
+
 const app: Express = express();
 app.use(
   cors({
