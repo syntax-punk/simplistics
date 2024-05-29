@@ -30,7 +30,6 @@ jobs:
           push: true
           tags: monollect/simplistics:latest
           build-args: |
-            NODE_ENV=production
             PORT=5055
             DB_PATH=store.db
             ALLOWED_HOSTS=http://localhost:3000,https://syntaxpunk.com
