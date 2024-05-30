@@ -1,9 +1,16 @@
-import {drizzle} from 'drizzle-orm/better-sqlite3';
-import Database from 'better-sqlite3';
+import {initializeApp} from 'firebase/app';
+import {collection, getFirestore} from 'firebase/firestore';
 import {envVars} from '../lib/environments';
 
-const {DB_PATH} = envVars;
+const firebaseConfig = {
+  apiKey: envVars.API_KEY,
+  authDomain: envVars.AUTH_DOMAIN,
+  projectId: envVars.PROJECT_ID,
+  storageBucket: envVars.STORAGE_BUCKET,
+  messagingSenderId: envVars.MESSAGING_SENDER_ID,
+  appId: envVars.APP_ID,
+};
 
-const sqlite = new Database(DB_PATH);
-
-export const db = drizzle(sqlite);
+export const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
+export const store = collection(db, envVars.DB_PATH);

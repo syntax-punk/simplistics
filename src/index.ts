@@ -1,11 +1,10 @@
 import express, {Express, Request, Response} from 'express';
 import cors from 'cors';
-import {db} from './db';
-import {DrizzleVisits, visits} from './db/schema';
-import {VisitRequestBody} from './definitions';
-import {and, count, desc, eq} from 'drizzle-orm';
+import {db, store} from './db';
+import {VisitEntity, VisitRequestBody} from './definitions';
 import {envVars} from './lib/environments';
 import {isEmpty} from './lib/tools';
+import {addDoc, getDocs, query, where} from 'firebase/firestore';
 
 const {PORT, ALLOWED_HOSTS} = envVars;
 
@@ -35,20 +34,23 @@ app.post(
     }
 
     // TODO: validate the request body
-    const record: DrizzleVisits = {
+    const record: VisitEntity = {
       hostname: hostName,
       path: path,
       timestamp: new Date().toUTCString(),
     };
 
-    const result = await db.insert(visits).values(record);
+    const result = await addDoc(store, record);
 
-    res.json({message: 'Visit recorded', changes: result.changes});
+    res.json({message: 'Visit recorded', changes: result.id});
   }
 );
 
 app.get('/stats/all', async (req: Request, res: Response) => {
-  const result = await db.select().from(visits).all();
+  const result = (await getDocs(store)).docs.map(
+    doc => doc.data() as VisitEntity
+  );
+
   res.json(result);
 });
 
@@ -56,11 +58,15 @@ app.get('/stats/:hostname/:path', async (req: Request, res: Response) => {
   const hostname = req.params.hostname;
   const path = req.params.path;
 
-  const result = await db
-    .select()
-    .from(visits)
-    .where(and(eq(visits.hostname, hostname), eq(visits.path, path)))
-    .orderBy(desc(visits.timestamp));
+  const abQuery = query(
+    store,
+    where('hostname', '==', hostname),
+    where('path', '==', path)
+  );
+
+  const result = (await getDocs(abQuery)).docs.map(
+    doc => doc.data() as VisitEntity
+  );
 
   res.json(result);
 });
@@ -69,12 +75,17 @@ app.get('/count/:hostname/:path', async (req: Request, res: Response) => {
   const hostname = req.params.hostname;
   const path = req.params.path;
 
-  const [result] = await db
-    .select({count: count()})
-    .from(visits)
-    .where(and(eq(visits.hostname, hostname), eq(visits.path, path)));
+  const abQuery = query(
+    store,
+    where('hostname', '==', hostname),
+    where('path', '==', path)
+  );
 
-  res.json(result);
+  const result = (await getDocs(abQuery)).docs.map(
+    doc => doc.data() as VisitEntity
+  ).length;
+
+  res.json({count: result});
 });
 
 app.listen(PORT, () => {

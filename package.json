@@ -12,19 +12,16 @@
     "clean": "gts clean",
     "compile": "tsc",
     "fix": "gts fix",
-    "prepare": "npm run compile && npm run generate && npm run migrate",
+    "prepare": "npm run compile",
     "pretest": "npm run compile",
-    "posttest": "npm run lint",
-    "generate": "drizzle-kit generate",
-    "migrate": "drizzle-kit migrate"
+    "posttest": "npm run lint"
   },
   "dependencies": {
     "better-sqlite3": "^10.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "drizzle-kit": "^0.21.4",
-    "drizzle-orm": "^0.30.10",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "firebase": "^10.12.2"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.10",
