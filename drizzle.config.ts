@@ -6,7 +6,7 @@ const {DB_PATH} = envVars;
 export default defineConfig({
   dialect: 'sqlite',
   schema: './src/db/schema.ts',
-  out: './src/db/drizzle',
+  out: './data/drizzle',
   dbCredentials: {
     url: DB_PATH,
   },

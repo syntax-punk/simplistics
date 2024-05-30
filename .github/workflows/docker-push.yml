@@ -31,7 +31,7 @@ jobs:
           tags: monollect/simplistics:latest
           build-args: |
             PORT=5055
-            DB_PATH=/data/store.db
+            DB_PATH=./data/store.db
             ALLOWED_HOSTS=http://localhost:3000,https://syntaxpunk.com
   deploy:
     needs: docker
