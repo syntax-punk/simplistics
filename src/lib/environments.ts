@@ -7,5 +7,5 @@ export const envVars: EnvironmentDefs = {
   DB_PATH: process.env.DB_PATH || './data/store.db',
   ALLOWED_HOSTS: process.env.ALLOWED_HOSTS
     ? process.env.ALLOWED_HOSTS.split(',')
-    : ['http://localhost:3000'],
+    : ['http://localhost:3000', 'https://syntaxpunk.com'],
 };
