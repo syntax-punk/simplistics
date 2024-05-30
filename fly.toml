@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for simplistics on 2024-05-29T12:29:52+02:00
+# fly.toml app configuration file generated for simplistics on 2024-05-30T11:56:53+02:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -7,7 +7,6 @@ app = 'simplistics'
 primary_region = 'arn'
 
 [build]
-  image = 'monollect/simplistics:latest'
 
 [http_service]
   internal_port = 5055
